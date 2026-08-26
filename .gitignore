@@ -6,3 +6,4 @@ docker-images/
 startos/*.js
 result
 result-*
+.image-loaded
