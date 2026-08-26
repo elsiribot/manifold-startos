@@ -43,11 +43,16 @@ the version in `startos/versions/current.ts`, and rebuild.
 
 ## Automated releases
 
-`.github/workflows/update.yml` runs daily (and on manual dispatch, with an
-optional `force` input): it updates the `manifold` flake input, and if the
-pin moved it bumps the package revision to `<upstream>:<YYYYMMDD>`, commits,
-builds the x86_64 s9pk, and publishes a GitHub release tagged
-`manifold-<short-rev>` with the s9pk attached. Set a `SIGNING_KEY` secret
+`.github/workflows/update.yml` polls `fedibtc/manifold` master hourly (and
+runs on manual dispatch, with an optional `force` input). The poll is a
+cheap `git ls-remote` compared against `flake.lock`; when master moved (and
+no release for that revision exists yet) a build job updates the `manifold`
+flake input, bumps the package revision to `<upstream>:<YYYYMMDDHH>`,
+commits, builds the x86_64 s9pk, and publishes a GitHub release tagged
+`manifold-<short-rev>` with the s9pk attached. Old releases are kept, one
+per packaged manifold revision. Following tagged upstream releases instead
+of master is a future change (pin the flake input to a release tag and poll
+`git ls-remote --tags`). Set a `SIGNING_KEY` secret
 (ed25519 PKCS#8 PEM, the workspace's `build.key.pem` format) to sign
 releases with a stable key; otherwise each run uses a fresh one, which is
 fine for side-loading. When upstream's workspace version changes (currently
