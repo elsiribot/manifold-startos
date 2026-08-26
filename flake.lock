@@ -1951,11 +1951,11 @@
         "selfci": "selfci"
       },
       "locked": {
-        "lastModified": 1787645513,
-        "narHash": "sha256-LHONY1uibkqJQVGDvz07EJ6Fjs+wTXK+0Iv7T2t8X1A=",
+        "lastModified": 1787763735,
+        "narHash": "sha256-tUT5ehr6OOVYlq3aZpRy8eDxIINSM0BMTxFcNc2m7oE=",
         "owner": "fedibtc",
         "repo": "manifold",
-        "rev": "d090989b0696150c477a880fd1f1557a44a38efa",
+        "rev": "d321f4d27ae1d54b82879c78e225929dcb28561f",
         "type": "github"
       },
       "original": {
