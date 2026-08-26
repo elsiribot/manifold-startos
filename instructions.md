@@ -9,9 +9,11 @@ guardian node supervised by the daemon. You earn fees for hosting seats.
 
 ## Requirements
 
-- **Bitcoin Core**: a fully synced local Bitcoin node (the Bitcoin Core
-  service on this server) is required. Guardian nodes use it to follow the
-  chain.
+- **Bitcoin Core**: in the production environment, a fully synced local
+  Bitcoin node (the Bitcoin Core service on this server) is required —
+  guardian nodes use it to follow the chain. The staging environment needs
+  no Bitcoin node: it runs on test money (Mutinynet/Signet) via a built-in
+  Esplora backend.
 - **Memory**: plan roughly 1.5 GB of available RAM per guardian seat you
   intend to offer (about 280 MB per running seat plus headroom), up to
   8 seats.

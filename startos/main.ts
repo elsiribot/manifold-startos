@@ -20,7 +20,7 @@ export const main = sdk.setupMain(async ({ effects }) => {
     mode: 0o600,
   })
 
-  const mounts = sdk.Mounts.of()
+  let mounts = sdk.Mounts.of()
     .mountVolume({
       volumeId: 'main',
       subpath: null,
@@ -33,13 +33,20 @@ export const main = sdk.setupMain(async ({ effects }) => {
       mountpoint: '/data',
       readonly: false,
     })
-    .mountDependency<typeof bitcoinManifest>({
+
+  // The staging profile ships a default Esplora backend (Mutinynet/Signet);
+  // only production runs against the local mainnet node.
+  const useBitcoind = store.environment === 'production'
+
+  if (useBitcoind) {
+    mounts = mounts.mountDependency<typeof bitcoinManifest>({
       dependencyId: 'bitcoind',
       volumeId: 'main',
       subpath: null,
       mountpoint: '/mnt/bitcoin',
       readonly: true,
     })
+  }
 
   const fmanSub = sdk.SubContainer.of(
     effects,
@@ -47,29 +54,6 @@ export const main = sdk.setupMain(async ({ effects }) => {
     mounts,
     'fleet-manager-sub',
   )
-
-  const bitcoindAddr = await sdk.host
-    .getBridgeAddress(effects, {
-      packageId: 'bitcoind',
-      hostId: rpcHostId,
-      internalPort: rpcPort,
-      ssl: false,
-    })
-    .const()
-  if (!bitcoindAddr) {
-    throw new Error('Bitcoin is not yet reachable on the internal network')
-  }
-  const rootfs = await fmanSub.rootfs
-  const cookieRaw = await FileHelper.string(`${rootfs}/mnt/bitcoin/.cookie`)
-    .read(
-      (cookie) => cookie,
-      (prev, next) => next === null || prev === next,
-    )
-    .const(effects)
-  if (!cookieRaw) throw new Error('Bitcoind cookie is missing')
-  const cookie = cookieRaw.trim()
-  const sep = cookie.indexOf(':')
-  if (sep < 0) throw new Error('Bitcoind cookie is malformed')
 
   // Absolute path: the nix-built image declares no PATH in its env.
   const command: [string, ...string[]] = [
@@ -79,12 +63,6 @@ export const main = sdk.setupMain(async ({ effects }) => {
     '/data',
     '--manifold-environment',
     store.environment,
-    '--bitcoind-url',
-    `http://${bitcoindAddr}`,
-    '--bitcoind-username',
-    cookie.slice(0, sep),
-    // `=` form so a password starting with `-` isn't parsed as a flag
-    `--bitcoind-password=${cookie.slice(sep + 1)}`,
     '--admin-http-bind',
     `0.0.0.0:${uiPort}`,
     // StartOS exposes service UIs on the LAN without an authenticating
@@ -94,6 +72,39 @@ export const main = sdk.setupMain(async ({ effects }) => {
     '--admin-http-password-file',
     adminPasswordFile,
   ]
+
+  if (useBitcoind) {
+    const bitcoindAddr = await sdk.host
+      .getBridgeAddress(effects, {
+        packageId: 'bitcoind',
+        hostId: rpcHostId,
+        internalPort: rpcPort,
+        ssl: false,
+      })
+      .const()
+    if (!bitcoindAddr) {
+      throw new Error('Bitcoin is not yet reachable on the internal network')
+    }
+    const rootfs = await fmanSub.rootfs
+    const cookieRaw = await FileHelper.string(`${rootfs}/mnt/bitcoin/.cookie`)
+      .read(
+        (cookie) => cookie,
+        (prev, next) => next === null || prev === next,
+      )
+      .const(effects)
+    if (!cookieRaw) throw new Error('Bitcoind cookie is missing')
+    const cookie = cookieRaw.trim()
+    const sep = cookie.indexOf(':')
+    if (sep < 0) throw new Error('Bitcoind cookie is malformed')
+    command.push(
+      '--bitcoind-url',
+      `http://${bitcoindAddr}`,
+      '--bitcoind-username',
+      cookie.slice(0, sep),
+      // `=` form so a password starting with `-` isn't parsed as a flag
+      `--bitcoind-password=${cookie.slice(sep + 1)}`,
+    )
+  }
   if (store.pushGatewayOrigin) {
     command.push('--push-gateway-origin', store.pushGatewayOrigin)
   }
