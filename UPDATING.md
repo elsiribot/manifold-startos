@@ -1,5 +1,11 @@
 # Updating the packaged manifold revision
 
+Routine bumps are automated: `.github/workflows/update.yml` re-pins
+`fedibtc/manifold` daily, bumps the package revision, and publishes a
+release. The manual procedure below is needed when the automation is down
+or when upstream's workspace version changes (steps 2 and 3 are not
+automated).
+
 1. `nix flake update manifold` — pins the latest `fedibtc/manifold` master.
 2. Check upstream's workspace version (`version` in manifold's
    `Cargo.toml`); if it changed, update the image tag in `flake.nix` and in

@@ -41,6 +41,20 @@ flake on an arm machine or with binfmt emulation, then `podman load` it).
 To bump the packaged manifold revision: `nix flake update manifold`, adjust
 the version in `startos/versions/current.ts`, and rebuild.
 
+## Automated releases
+
+`.github/workflows/update.yml` runs daily (and on manual dispatch, with an
+optional `force` input): it updates the `manifold` flake input, and if the
+pin moved it bumps the package revision to `<upstream>:<YYYYMMDD>`, commits,
+builds the x86_64 s9pk, and publishes a GitHub release tagged
+`manifold-<short-rev>` with the s9pk attached. Set a `SIGNING_KEY` secret
+(ed25519 PKCS#8 PEM, the workspace's `build.key.pem` format) to sign
+releases with a stable key; otherwise each run uses a fresh one, which is
+fine for side-loading. When upstream's workspace version changes (currently
+0.1.0), the image tag in `flake.nix`, the manifest `dockerTag`, the
+Makefile `IMAGE_TAG`, and the upstream part of the version in
+`startos/versions/current.ts` still need a manual bump (see UPDATING.md).
+
 ## Runtime design
 
 - One daemon: `fleet-manager serve` with `--data-dir /data` (volume

@@ -4,7 +4,7 @@ export const manifest = setupManifest({
   id: 'fleet-manager',
   title: 'Fleet Manager',
   license: 'MIT',
-  packageRepo: 'https://github.com/fedibtc/manifold-startos',
+  packageRepo: 'https://github.com/elsiribot/manifold-startos',
   upstreamRepo: 'https://github.com/fedibtc/manifold',
   marketingUrl: 'https://fedi.xyz/',
   donationUrl: null,
