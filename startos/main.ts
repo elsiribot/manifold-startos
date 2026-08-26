@@ -71,8 +71,9 @@ export const main = sdk.setupMain(async ({ effects }) => {
   const sep = cookie.indexOf(':')
   if (sep < 0) throw new Error('Bitcoind cookie is malformed')
 
+  // Absolute path: the nix-built image declares no PATH in its env.
   const command: [string, ...string[]] = [
-    'fleet-manager',
+    '/bin/fleet-manager',
     'serve',
     '--data-dir',
     '/data',
