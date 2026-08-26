@@ -131,7 +131,12 @@ jobs:
           rev='${{ steps.bump.outputs.rev }}'
           tag='${{ steps.bump.outputs.tag }}'
           notes="Automated build of [fedibtc/manifold@$rev](https://github.com/fedibtc/manifold/commit/$rev) (package version $version, x86_64). Side-load the attached s9pk."
-          gh release create "$tag" fleet-manager_x86_64.s9pk \
+          if ! gh release create "$tag" fleet-manager_x86_64.s9pk \
             --title "Fleet Manager $version ($tag)" \
-            --notes "$notes" \
-            || gh release upload "$tag" fleet-manager_x86_64.s9pk --clobber
+            --notes "$notes"; then
+            # Forced rebuild of an existing tag: replace the asset and keep
+            # the release metadata in sync with the packaged version.
+            gh release upload "$tag" fleet-manager_x86_64.s9pk --clobber
+            gh release edit "$tag" \
+              --title "Fleet Manager $version ($tag)" --notes "$notes"
+          fi
