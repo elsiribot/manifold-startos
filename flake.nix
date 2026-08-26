@@ -42,6 +42,13 @@
             tag = "0.1.0";
             fromImage = baseImage;
             extraCommands = ''
+              # Runtime mountpoint stubs. Docker-built images inherit these
+              # from their build containers, but dockerTools images have
+              # none, and StartOS's subcontainer launcher needs them to
+              # exist (no /proc mountpoint -> PID 1 never starts -> "Failed
+              # to start subcontainer").
+              mkdir -p proc sys dev run tmp data root
+              chmod 1777 tmp
               mkdir -p etc/ssl
               cat > etc/passwd <<'EOF'
               root:x:0:0:root:/root:/bin/false
