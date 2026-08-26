@@ -23,9 +23,16 @@ It builds a side-loadable `.s9pk`.
 Requirements: `start-cli`, node/npm, git, jq, nix, podman (rootless is
 fine), `mksquashfs` (squashfs-tools) and `tar2sqfs` (squashfs-tools-ng).
 
+The repo must live inside a StartOS packaging workspace
+(`start-cli s9pk init-workspace` in the parent directory). `start-cli`
+resolves the workspace's default host target on startup, so if you have no
+dev server, set `host.default` in `<workspace>/.startos/config.yaml` to
+`https://localhost`. Without a docker daemon, set `STARTOS_USE_PODMAN=1` so
+`start-cli` drives podman.
+
 ```sh
 npm ci
-make x86        # -> fleet-manager_x86_64.s9pk
+STARTOS_USE_PODMAN=1 make x86   # -> fleet-manager_x86_64.s9pk
 ```
 
 `make arm` additionally needs an aarch64 build of the OCI image (build the
