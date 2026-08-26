@@ -1,11 +1,13 @@
 import { IMPOSSIBLE, VersionInfo } from '@start9labs/start-sdk'
 
 export const current = VersionInfo.of({
-  version: '0.1.0:0',
+  version: '0.1.0:1',
   releaseNotes: {
     en_US:
-      'Initial release of Fleet Manager for StartOS, packaging the ' +
-      'Manifold guardian-hosting daemon with its bundled fedimintd.',
+      'The staging environment no longer requires Bitcoin Core: it uses ' +
+      "the profile's built-in Esplora backend (Mutinynet/Signet), matching " +
+      'the reference deployment. The bitcoind dependency now applies only ' +
+      'to the production environment.',
   },
   migrations: {
     up: async () => {},
