@@ -1,7 +1,7 @@
 import { IMPOSSIBLE, VersionInfo } from '@start9labs/start-sdk'
 
 export const current = VersionInfo.of({
-  version: '0.1.0:2026100319',
+  version: '0.1.0:2026100620',
   releaseNotes: {
     en_US:
       'Fixes the service container failing to start: the nix-built image ' +
