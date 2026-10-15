@@ -1886,11 +1886,11 @@
         "selfci": "selfci"
       },
       "locked": {
-        "lastModified": 1792070236,
-        "narHash": "sha256-m2JLFCodX3VK6PNWn/28Io6JP0Vr2c0SmE2GIH7jpDI=",
+        "lastModified": 1792087268,
+        "narHash": "sha256-oZZ6Nn8omQMaCF5Ikozgr1vhpgq/YLx6lY6eAy/u0N4=",
         "owner": "fedibtc",
         "repo": "manifold",
-        "rev": "107eda1318235f2380180e927a3e9680594d2c63",
+        "rev": "3cb918a469ad02c261df8d2c196ff3b53661626e",
         "type": "github"
       },
       "original": {
