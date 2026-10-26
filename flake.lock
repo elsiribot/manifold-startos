@@ -929,16 +929,16 @@
         "wild": "wild_2"
       },
       "locked": {
-        "lastModified": 1792697017,
-        "narHash": "sha256-3LY4k8p6TsAPDfTZvjsrN41jyUozitgDuW1qBdy4rME=",
+        "lastModified": 1793034462,
+        "narHash": "sha256-CXL0aCLNFoV8AsbYIpXUEJD5Bx2SrGBiEZD8TdMUVjY=",
         "owner": "fedibtc",
         "repo": "fedimint",
-        "rev": "89bb55bb54cfcdb87d9724d15103274daafbc51f",
+        "rev": "a8544befc4e274b267994c2bfccd9152a9253d38",
         "type": "github"
       },
       "original": {
         "owner": "fedibtc",
-        "ref": "v0.12.0-fedi16",
+        "ref": "v0.12.0-fedi17",
         "repo": "fedimint",
         "type": "github"
       }
@@ -1886,11 +1886,11 @@
         "selfci": "selfci"
       },
       "locked": {
-        "lastModified": 1793036826,
-        "narHash": "sha256-dtwcX110ViFP7/nc4TCQ1nVbxXj10dbBwZPBNJHf0HE=",
+        "lastModified": 1793048880,
+        "narHash": "sha256-wv4BB4pTpyS2MlNow4zTM85coo9N894pVK5kUpymH0Y=",
         "owner": "fedibtc",
         "repo": "manifold",
-        "rev": "a7bbfbfbe80a62e8ac9a0a7a29088bcea737c874",
+        "rev": "ef2b56d0160788c9067efc328688385ef0657bb1",
         "type": "github"
       },
       "original": {
