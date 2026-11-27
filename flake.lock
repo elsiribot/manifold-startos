@@ -1887,11 +1887,11 @@
         "stability-pool": "stability-pool"
       },
       "locked": {
-        "lastModified": 1795716338,
-        "narHash": "sha256-4bhTK3DeR7HtlwGfd0Ez12N4dsV1bFa1lNVd8vep24o=",
+        "lastModified": 1795805215,
+        "narHash": "sha256-NFkEE24g2b/fjiLYTw5pp7+J8sI5gO0n9LG7uwU+nf8=",
         "owner": "fedibtc",
         "repo": "manifold",
-        "rev": "df46d603276c0d064cad1190ff9fb3668129ea50",
+        "rev": "d0a511efc2a717df19013f1d6d5fc46e9fe3e270",
         "type": "github"
       },
       "original": {
